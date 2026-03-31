@@ -1,54 +1,148 @@
-﻿# Sistema de Gestión de Cursos - OTEC Admin
+﻿# ABP #6 — Entregable OTEC Primavera 🌸
 
-Este proyecto es un mantenedor CRUD funcional desarrollado en **Spring Boot**, diseñado para la administración de la malla de cursos y **secciones** de un Organismo Técnico de Capacitación (OTEC), como los dictados para Talento Digital. Implementa estándares de la industria como arquitectura de capas, el uso estricto del patrón **DTO** y prácticas modernas de **Spring Security 6**.
+Aplicación web desarrollada con **Spring Boot** para la gestión académica y administrativa de una **OTEC**. El sistema permite administrar cursos, relatores, habilitaciones, estudiantes, prácticas y evaluaciones, incorporando autenticación y reglas de negocio orientadas al contexto **SENCE / REUF**.
 
-## 🚀 Características Principales
+---
 
-* **Gestión de Cursos y Cohortes:** Capacidad para listar, crear, editar y aplicar borrado lógico a cursos y secciones. Soporta planificación temprana permitiendo crear cursos sin un relator asignado. Reemplaza el concepto de "canal" por un `codigoInterno` para la trazabilidad logística.
-* **Cumplimiento Normativo (SENCE - REUF):** Validación estricta en el backend que impide asignar un relator a un curso si no cuenta con la habilitación SENCE vigente para ese código de especialidad.
-* **Ciclo de Vida Dual:** Separación de estados para reflejar la realidad del negocio: Estado Académico (`activo`/`inactivo`) y Estado de Visibilidad (`archivado`/`no archivado`).
-* **Seguridad Base (Prueba de Concepto):** Protección de rutas (`/cursos/**`, `/relatores/**`) mediante Spring Security 6 utilizando autenticación en memoria y encriptación BCrypt, sin uso de herencia obsoleta (`WebSecurityConfigurerAdapter`).
-* **Separación de Responsabilidades:** Código estructurado para diferenciar claramente la lógica de acceso a datos, las reglas de negocio y la presentación web.
+## ✨ Funcionalidades principales
 
-## 🏗️ Arquitectura del Proyecto
+- 📚 **Gestión de cursos**: crear, editar, listar, activar, desactivar y archivar cursos.
+- 👨‍🏫 **Administración de relatores**: registro y validación de relatores con sus habilitaciones.
+- ✅ **Control de habilitaciones SENCE/REUF**: validación para asignaciones según especialidad vigente.
+- 🎓 **Módulo de estudiantes**: registro, edición y seguimiento de participantes.
+- 📝 **Prácticas y evaluaciones**: seguimiento del avance académico de cada estudiante.
+- 🔐 **Autenticación y seguridad**: acceso protegido con `Spring Security 6`.
+- 🖥️ **Interfaz web server-side**: vistas renderizadas con `Thymeleaf` y estilo con `Bootstrap 5`.
 
-El proyecto sigue un riguroso patrón de **3 Capas** para asegurar la escalabilidad:
+---
 
-1. **Modelo (Entity):** Representación de las tablas en MariaDB mediante JPA (Cursos, Relatores, Habilitaciones).
-2. **Repositorio:** Interfaz que extiende de `JpaRepository` para operaciones de persistencia automatizadas.
-3. **Servicio:** Capa de lógica de negocio donde se realiza el mapeo bidireccional de Entidades a DTOs y se validan las reglas del OTEC.
-4. **Controlador:** Maneja las peticiones HTTP y devuelve las vistas web renderizadas.
-5. **DTO (Data Transfer Object):** Objetos de transferencia para aislar la base de datos y exponer solo los datos necesarios a la vista.
-6. **Configuración de Seguridad:** Uso de `SecurityFilterChain` para la gestión de filtros HTTP y autorización basada en componentes.
+## 🧱 Stack tecnológico
 
-## 🛠️ Tecnologías Utilizadas
+| Tecnología | Uso en el proyecto |
+|---|---|
+| `Java 21` | Lenguaje principal |
+| `Spring Boot 3.2.3` | Framework base |
+| `Spring MVC` | Controladores y flujo web |
+| `Spring Data JPA` | Persistencia de datos |
+| `Spring Security 6` | Login y protección de rutas |
+| `Thymeleaf` | Renderizado de vistas |
+| `MariaDB` | Base de datos principal |
+| `H2` | Base de datos para pruebas |
+| `Maven` | Build y dependencias |
 
-* **Java 17+**
-* **Spring Boot 3.x** (Web, Data JPA, Security)
-* **Spring Security 6**
-* **Thymeleaf** (Motor de plantillas renderizado en servidor)
-* **MariaDB** (Base de datos relacional)
-* **Maven** (Gestión de dependencias)
-* **Bootstrap 5** (Diseño y componentes UI)
+---
 
-## 🗄️ Configuración y Despliegue Local
+## 🏗️ Arquitectura
 
-Para levantar este proyecto en tu entorno local, sigue estos pasos:
+El proyecto sigue una estructura por capas:
 
-### 1. Inicialización de la Base de Datos
-El script maestro con la estructura final y datos de prueba reales está versionado en el repositorio.
-* Ejecuta el archivo `database/init_otec.sql` en tu gestor de base de datos (DBeaver, HeidiSQL, etc.).
-* Este script destruirá/creará el esquema `otec_admin_db`, configurará las tablas (`relatores`, `cursos`, `habilitaciones`) y poblará el catálogo base para validar las reglas de asignación SENCE.
+1. **Controladores**: reciben las solicitudes HTTP.
+2. **Servicios**: contienen la lógica de negocio.
+3. **Repositorios**: acceso a datos mediante `JpaRepository`.
+4. **Modelo / Entidades**: representan las tablas del sistema.
+5. **DTOs**: desacoplan la capa web de la persistencia.
 
-### 2. Configuración de Credenciales (application.properties)
-Por motivos de seguridad, el archivo con las credenciales reales de conexión a la base de datos **no está versionado** en Git.
-* Dirígete a la ruta `src/main/resources/`.
-* Usa el archivo de plantilla `application.properties.ejemplo` como base. Este archivo contiene el formato exacto de las propiedades que necesita el proyecto.
-* Haz una copia de ese archivo en la misma carpeta y renómbrala a `application.properties`.
-* Abre tu nuevo `application.properties` e ingresa tu `username` y `password` reales de MariaDB.
-* Antes de publicar en GitHub, verifica con `git status` que no aparezcan archivos locales con credenciales, llaves o configuraciones privadas.
+Estructura base:
 
-### 3. Ejecución
-* Ejecuta la clase principal de Spring Boot.
-* Asegúrate de que la propiedad `spring.jpa.hibernate.ddl-auto` esté en `none` o `validate` para evitar que Hibernate modifique la estructura creada por el script SQL.
-* Accede al sistema ingresando a `http://localhost:8080/cursos`.
+```text
+src/main/java/cl/talento/otec/admin/
+├── config/
+├── controlador/
+├── dto/
+├── modelo/
+├── repositorio/
+└── servicio/
+```
+
+---
+
+## 🚀 Ejecución local
+
+### 1) Requisitos previos
+
+- `Java 21`
+- `Maven` o uso del wrapper `mvnw`
+- `MariaDB` en ejecución
+
+### 2) Crear la base de datos
+
+Ejecuta el script:
+
+```text
+database/init_otec.sql
+```
+
+> Este script crea el esquema `otec_admin_db`, genera las tablas base y carga datos de ejemplo para pruebas locales.
+
+### 3) Configurar credenciales locales
+
+Por seguridad, el archivo real `application.properties` **no se publica** en Git.
+
+1. Ve a `src/main/resources/`
+2. Copia `application.properties.ejemplo`
+3. Renómbralo a `application.properties`
+4. Completa tus credenciales locales de MariaDB
+
+Ejemplo:
+
+```properties
+spring.datasource.url=jdbc:mariadb://localhost:3306/otec_admin_db
+spring.datasource.username=TU_USUARIO_MARIADB
+spring.datasource.password=TU_PASSWORD_MARIADB
+spring.jpa.hibernate.ddl-auto=validate
+```
+
+### 4) Levantar la aplicación
+
+En Windows:
+
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+Luego abre en el navegador:
+
+```text
+http://localhost:8080/cursos
+```
+
+---
+
+## 🧪 Pruebas
+
+Para ejecutar los tests del proyecto:
+
+```powershell
+.\mvnw.cmd test
+```
+
+---
+
+## 🔒 Consideraciones de seguridad
+
+- `src/main/resources/application.properties` está excluido del repositorio.
+- También se ignoran carpetas y archivos locales como `target/`, `.vscode/`, `.env*`, llaves y certificados.
+- El repositorio está preparado para compartirse sin exponer credenciales personales.
+
+---
+
+## 📌 Estado del proyecto
+
+Este repositorio corresponde a una **entrega académica / ABP**, enfocada en demostrar:
+
+- desarrollo full stack con Java y Spring Boot,
+- organización por capas,
+- seguridad básica con autenticación,
+- persistencia con base de datos relacional,
+- y buenas prácticas de publicación segura en GitHub.
+
+---
+
+## 👤 Autoría
+
+Proyecto publicado por **jaileic**.
+
+Si quieres, después puedo ayudarte a agregar una sección con:
+- capturas de pantalla,
+- gif de funcionamiento,
+- o una versión más “reclutador-friendly” para portfolio.
