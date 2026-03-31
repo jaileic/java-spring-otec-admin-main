@@ -15,3 +15,24 @@ bin/
 # Properties (Ignorar todos excepto .ejemplo para documentación)
 src/main/resources/*.properties
 !src/main/resources/*.ejemplo
+
+# Seguridad / credenciales locales
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+*.crt
+*.cer
+*.der
+
+# IDE adicionales
+.idea/
+*.iml
+
+# Bases locales
+*.db
+*.sqlite
+*.sqlite3

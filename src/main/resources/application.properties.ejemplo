@@ -1,0 +1,8 @@
+spring.datasource.url=jdbc:mariadb://localhost:3306/otec_admin_db
+spring.datasource.username=TU_USUARIO_MARIADB
+spring.datasource.password=TU_PASSWORD_MARIADB
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.show-sql=true
+spring.jpa.open-in-view=true

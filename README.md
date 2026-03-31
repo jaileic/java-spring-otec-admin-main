@@ -41,11 +41,12 @@ El script maestro con la estructura final y datos de prueba reales está version
 * Este script destruirá/creará el esquema `otec_admin_db`, configurará las tablas (`relatores`, `cursos`, `habilitaciones`) y poblará el catálogo base para validar las reglas de asignación SENCE.
 
 ### 2. Configuración de Credenciales (application.properties)
-Por motivos de seguridad, el archivo con las credenciales reales de conexión a la base de datos **no está versionado** en Git. 
+Por motivos de seguridad, el archivo con las credenciales reales de conexión a la base de datos **no está versionado** en Git.
 * Dirígete a la ruta `src/main/resources/`.
-* Encontrarás un archivo de plantilla llamado `application.properties.ejemplo`. Este archivo contiene el formato exacto de las propiedades que necesita el proyecto.
+* Usa el archivo de plantilla `application.properties.ejemplo` como base. Este archivo contiene el formato exacto de las propiedades que necesita el proyecto.
 * Haz una copia de ese archivo en la misma carpeta y renómbrala a `application.properties`.
 * Abre tu nuevo `application.properties` e ingresa tu `username` y `password` reales de MariaDB.
+* Antes de publicar en GitHub, verifica con `git status` que no aparezcan archivos locales con credenciales, llaves o configuraciones privadas.
 
 ### 3. Ejecución
 * Ejecuta la clase principal de Spring Boot.
