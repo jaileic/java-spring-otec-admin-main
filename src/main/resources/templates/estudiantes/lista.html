@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/master :: layout(~{::title}, ~{::section})}">
+<title>Estudiantes - OTEC PRIMAVERA</title>
+<section>
+    <div class="page-hero">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="mb-1">Estudiantes</h1>
+                <p class="text-muted mb-0">Registro y visualización del área académica de Primavera.</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <a th:href="@{/estudiantes/nuevo}" class="btn btn-primary" sec:authorize="hasAnyRole('ADMIN','USER')">
+                    <i class="bi bi-person-plus"></i> Registrar estudiante
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-card p-4">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>RUT</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Programa</th>
+                <th>Curso</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e : ${estudiantes}">
+                <td th:text="${e.rut}"></td>
+                <td th:text="${e.nombres + ' ' + e.apellidos}"></td>
+                <td th:text="${e.email}"></td>
+                <td th:text="${e.programa}"></td>
+                <td th:text="${e.nombreCurso}"></td>
+                <td>
+                    <span class="badge bg-success" th:if="${e.activo}">Activo</span>
+                    <span class="badge bg-secondary" th:unless="${e.activo}">Inactivo</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${estudiantes.isEmpty()}" class="alert alert-info">
+        No hay estudiantes registrados todavía.
+    </div>
+    </div>
+</section>
+</html>

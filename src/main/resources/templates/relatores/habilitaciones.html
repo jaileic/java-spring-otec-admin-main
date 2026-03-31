@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/master :: layout(~{::title}, ~{::section})}">
+<title>Habilitaciones - OTEC Admin</title>
+<section>
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1 class="mb-0">Habilitaciones de <span th:text="${relator.nombres + ' ' + relator.apellidos}"></span></h1>
+                <p class="text-muted mt-2">RUT: <span th:text="${relator.rut}"></span></p>
+            </div>
+            <div class="col-md-4 text-end">
+                <a th:href="@{/relatores}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver a Relatores
+                </a>
+            </div>
+        </div>
+
+        <!-- Habilitaciones Registradas -->
+        <div class="mb-5">
+            <h2 class="mb-3">Habilitaciones Registradas</h2>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" th:if="${!habilitaciones.isEmpty()}">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Área</th>
+                            <th>Código SENCE</th>
+                            <th>Estado REUF</th>
+                            <th>Vencimiento</th>
+                            <th>Estado Interno</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="hab : ${habilitaciones}">
+                            <td th:text="${hab.areaCurso}"></td>
+                            <td th:text="${hab.codigoEspecialidadSence}"></td>
+                            <td>
+                                <span th:if="${hab.estadoReuf == 'Vigente'}" class="badge bg-success" th:text="${hab.estadoReuf}"></span>
+                                <span th:if="${hab.estadoReuf == 'En Trámite'}" class="badge bg-warning" th:text="${hab.estadoReuf}"></span>
+                                <span th:if="${hab.estadoReuf == 'Vencido'}" class="badge bg-danger" th:text="${hab.estadoReuf}"></span>
+                                <span th:if="${hab.estadoReuf == 'Rechazado'}" class="badge bg-danger" th:text="${hab.estadoReuf}"></span>
+                            </td>
+                            <td th:text="${#temporals.format(hab.fechaVencimientoReuf, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${hab.estado}"></td>
+                            <td>
+                                <a th:href="@{/relatores/{idRelator}/habilitaciones/eliminar/{idHabilitacion}(idRelator=${relator.idRelator}, idHabilitacion=${hab.idHabilitacion})}" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar esta habilitación?')" title="Eliminar">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${habilitaciones.isEmpty()}" class="alert alert-info" role="alert">
+                No hay habilitaciones registradas para este relator.
+            </div>
+        </div>
+
+        <!-- Formulario Agregar Nueva Habilitación -->
+        <div class="card">
+            <div class="card-header bg-light">
+                <h2 class="card-title mb-0">Agregar Nueva Habilitación</h2>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/relatores/{idRelator}/habilitaciones/guardar(idRelator=${relator.idRelator})}" method="post" th:object="${habilitacion}" class="needs-validation" novalidate="novalidate">
+                    
+                    <div class="mb-3">
+                        <label for="areaCurso" class="form-label">Área del Curso <span class="text-danger">*</span></label>
+                        <input type="text" id="areaCurso" th:field="*{areaCurso}" class="form-control" th:classappend="${#fields.hasErrors('areaCurso') ? 'is-invalid' : ''}" required="required" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('areaCurso')}" th:errors="*{areaCurso}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="codigoEspecialidadSence" class="form-label">Código de Especialidad SENCE <span class="text-danger">*</span></label>
+                        <input type="text" id="codigoEspecialidadSence" th:field="*{codigoEspecialidadSence}" class="form-control" th:classappend="${#fields.hasErrors('codigoEspecialidadSence') ? 'is-invalid' : ''}" required="required" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('codigoEspecialidadSence')}" th:errors="*{codigoEspecialidadSence}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="estadoReuf" class="form-label">Estado REUF <span class="text-danger">*</span></label>
+                        <select id="estadoReuf" th:field="*{estadoReuf}" class="form-select" th:classappend="${#fields.hasErrors('estadoReuf') ? 'is-invalid' : ''}" required="required">
+                            <option value="">-- Selecciona un estado --</option>
+                            <option value="Vigente">Vigente</option>
+                            <option value="En Trámite">En Trámite</option>
+                            <option value="Vencido">Vencido</option>
+                            <option value="Rechazado">Rechazado</option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('estadoReuf')}" th:errors="*{estadoReuf}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fechaVencimientoReuf" class="form-label">Fecha de Vencimiento REUF <span class="text-danger">*</span></label>
+                        <input type="date" id="fechaVencimientoReuf" th:field="*{fechaVencimientoReuf}" class="form-control" th:classappend="${#fields.hasErrors('fechaVencimientoReuf') ? 'is-invalid' : ''}" required="required" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('fechaVencimientoReuf')}" th:errors="*{fechaVencimientoReuf}"></div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="estado" class="form-label">Estado Interno (OTEC)</label>
+                        <input type="text" id="estado" th:field="*{estado}" class="form-control" th:classappend="${#fields.hasErrors('estado') ? 'is-invalid' : ''}" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Guardar Habilitación
+                        </button>
+                        <a th:href="@{/relatores}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+</section>
+</html>

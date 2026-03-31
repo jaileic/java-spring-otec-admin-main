@@ -1,0 +1,17 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# VS Code
+.vscode/
+.history/
+*.code-workspace
+
+# Sistema
+bin/
+*.log
+.DS_Store
+
+# Properties (Ignorar todos excepto .ejemplo para documentación)
+src/main/resources/*.properties
+!src/main/resources/*.ejemplo

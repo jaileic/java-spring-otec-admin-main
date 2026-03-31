@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/master :: layout(~{::title}, ~{::section})}">
+<title>Relator - OTEC Admin</title>
+<section>
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h1>Datos del Relator</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <form th:action="@{/relatores/guardar}" method="post" th:object="${relator}" class="needs-validation" novalidate="novalidate">
+                    <input type="hidden" th:field="*{idRelator}" />
+
+                    <div class="mb-3">
+                        <label for="rut" class="form-label">RUT <span class="text-danger">*</span></label>
+                        <input type="text" id="rut" th:field="*{rut}" class="form-control" th:classappend="${#fields.hasErrors('rut') ? 'is-invalid' : ''}" required="required" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('rut')}" th:errors="*{rut}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nombres" class="form-label">Nombres <span class="text-danger">*</span></label>
+                        <input type="text" id="nombres" th:field="*{nombres}" class="form-control" th:classappend="${#fields.hasErrors('nombres') ? 'is-invalid' : ''}" required="required" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="apellidos" class="form-label">Apellidos <span class="text-danger">*</span></label>
+                        <input type="text" id="apellidos" th:field="*{apellidos}" class="form-control" th:classappend="${#fields.hasErrors('apellidos') ? 'is-invalid' : ''}" required="required" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" id="email" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ''}" required="required" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="profesionTitulo" class="form-label">Profesión/Título</label>
+                        <input type="text" id="profesionTitulo" th:field="*{profesionTitulo}" class="form-control" th:classappend="${#fields.hasErrors('profesionTitulo') ? 'is-invalid' : ''}" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('profesionTitulo')}" th:errors="*{profesionTitulo}"></div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Guardar
+                        </button>
+                        <a th:href="@{/relatores}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+</section>
+</html>

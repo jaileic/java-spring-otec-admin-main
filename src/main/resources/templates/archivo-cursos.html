@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/master :: layout(~{::title}, ~{::section})}">
+<title>Archivo - OTEC Admin</title>
+<section>
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1 class="mb-0">Archivo de Cursos Archivados</h1>
+            </div>
+            <div class="col-md-4 text-end">
+                <a th:href="@{/cursos}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver a Catálogo Principal
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Código Interno</th>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Relator</th>
+                        <th>Duración</th>
+                        <th>Código SENCE</th>
+                        <th>Categoría</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="c : ${cursos}">
+                        <td th:text="${c.codigoInterno}"></td>
+                        <td th:text="${c.codigo}"></td>
+                        <td th:text="${c.nombre}"></td>
+                        <td th:text="${c.nombreRelator}"></td>
+                        <td th:text="${c.duracionHoras} + ' hrs'"></td>
+                        <td th:text="${c.codigoSence}"></td>
+                        <td th:text="${c.categoria}"></td>
+                        <td>
+                            <a th:href="@{/cursos/restaurar/{id}(id=${c.idCurso})}" class="btn btn-sm btn-success" title="Restaurar">
+                                <i class="bi bi-arrow-counterclockwise"></i> Restaurar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${cursos.isEmpty()}" class="alert alert-info" role="alert">
+            No hay cursos en el archivo. <a th:href="@{/cursos}" class="alert-link">Ir al catálogo principal</a>
+        </div>
+</section>
+</html>

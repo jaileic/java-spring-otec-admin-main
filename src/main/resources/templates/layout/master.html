@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" 
+      th:fragment="layout(title, content)" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="${title}"></th:block>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --spring-green: #63c174;
+            --spring-teal: #48b8ad;
+            --spring-pink: #f39ab7;
+            --spring-yellow: #f6d978;
+            --spring-soft: #f7fff8;
+            --spring-text: #26443d;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--spring-text);
+            background:
+                radial-gradient(circle at top left, rgba(243, 154, 183, 0.18), transparent 22%),
+                radial-gradient(circle at bottom right, rgba(99, 193, 116, 0.18), transparent 24%),
+                linear-gradient(135deg, #f9fff7 0%, #fffdf5 100%);
+        }
+        main {
+            flex: 1;
+            padding: 2rem 0 3rem;
+        }
+        footer {
+            background: rgba(255, 255, 255, 0.75);
+            border-top: 1px solid rgba(99, 193, 116, 0.25);
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+            backdrop-filter: blur(6px);
+        }
+        .navbar {
+            background: linear-gradient(90deg, var(--spring-teal) 0%, var(--spring-green) 45%, var(--spring-pink) 100%) !important;
+            box-shadow: 0 10px 25px rgba(72, 184, 173, 0.22);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.35rem;
+            letter-spacing: 0.4px;
+        }
+        .nav-link {
+            font-weight: 500;
+        }
+        .page-hero {
+            background: linear-gradient(135deg, rgba(72, 184, 173, 0.14), rgba(243, 154, 183, 0.14), rgba(246, 217, 120, 0.18));
+            border: 1px solid rgba(99, 193, 116, 0.22);
+            border-radius: 22px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 12px 30px rgba(38, 68, 61, 0.08);
+        }
+        .page-card {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(72, 184, 173, 0.16);
+            border-radius: 22px;
+            box-shadow: 0 12px 30px rgba(38, 68, 61, 0.08);
+        }
+        .table-responsive {
+            border-radius: 16px;
+        }
+        .table thead.table-dark th {
+            background: linear-gradient(90deg, #3c9188 0%, #63c174 100%) !important;
+            border: 0;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #48b8ad 0%, #63c174 100%);
+            border: none;
+            box-shadow: 0 8px 18px rgba(99, 193, 116, 0.22);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #3ba79c 0%, #58b969 100%);
+        }
+        .btn-outline-primary {
+            border-color: #48b8ad;
+            color: #2b8f86;
+        }
+        .btn-outline-primary:hover {
+            background-color: #48b8ad;
+            border-color: #48b8ad;
+        }
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #48b8ad;
+            box-shadow: 0 0 0 0.2rem rgba(72, 184, 173, 0.18);
+        }
+        .invalid-feedback {
+            display: block;
+        }
+        .logout-form {
+            display: inline;
+            margin: 0;
+        }
+        .logout-btn {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        .user-info {
+            color: #fff;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/estudiantes}">
+                <strong><i class="bi bi-flower1"></i> OTEC PRIMAVERA</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/estudiantes}">
+                            Estudiantes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/cursos}">
+                            Cursos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/practicas}">
+                            Prácticas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/evaluaciones}">
+                            Evaluaciones
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/relatores}">
+                            Relatores
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/cursos/inactivos}">
+                            Archivo
+                        </a>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <div class="user-info">
+                            <span sec:authentication="name">Usuario</span>
+                            <form th:action="@{/logout}" method="post" class="logout-form">
+                                <button type="submit" class="btn btn-outline-light btn-sm logout-btn">
+                                    Cerrar Sesión
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" th:insert="${content}"></main>
+
+    <!-- Footer -->
+    <footer class="mt-5">
+        <div class="container-fluid text-center text-muted small">
+            <p>&copy; 2026 OTEC PRIMAVERA · Plataforma Académica interna.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
