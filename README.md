@@ -122,13 +122,11 @@ Para ejecutar los tests del proyecto:
 
 - `src/main/resources/application.properties` está excluido del repositorio.
 - También se ignoran carpetas y archivos locales como `target/`, `.vscode/`, `.env*`, llaves y certificados.
-- El repositorio está preparado para compartirse sin exponer credenciales personales.
+- El repositorio se comparte sin exponer credenciales personales.
 
 ---
 
 ## 📌 Estado del proyecto
-
-Este repositorio corresponde a una **entrega académica / ABP**, enfocada en demostrar:
 
 - desarrollo full stack con Java y Spring Boot,
 - organización por capas,
@@ -136,13 +134,4 @@ Este repositorio corresponde a una **entrega académica / ABP**, enfocada en dem
 - persistencia con base de datos relacional,
 - y buenas prácticas de publicación segura en GitHub.
 
----
-
-## 👤 Autoría
-
-Proyecto publicado por **jaileic**.
-
-Si quieres, después puedo ayudarte a agregar una sección con:
-- capturas de pantalla,
-- gif de funcionamiento,
-- o una versión más “reclutador-friendly” para portfolio.
+Proyecto publicado por **Javiera Leiva**.
